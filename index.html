@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Using Angular for AJAX</title>
+  <link rel="stylesheet" type="text/css" href="bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <script type="text/javascript" src="angular.js"></script>    
+  <script type="text/javascript" src="app.js"></script>
+
+</head>
+<body ng-app="weatherApp">
+<div class="container-fluid header text-center">
+  <h3>Weather Forecast App</h3>
+</div>
+
+<div class="row" ng-controller="firstController">
+  <div class="alert alert-danger" ng-show="errorMessage">
+    {{errorMessage}}
+  </div>
+  <div class="col-md-6 col-md-offset-3">
+    <h4>Weather by City</h4>
+    <div class="form-group">
+      <input type="text" class="form-control" id="input1" ng-model="cityName"/>
+      <p>{{cityName}}</p>
+    </div>
+    <a href="#" class="btn btn-primary" id="current" ng-click="getCurrent()">Get Current weather</a>
+    <a href="#" class="btn btn-primary" id="forecast" ng-click="getForecast()">Get Forecast</a>
+
+    <h3 id="textInfo"></h3>
+  </div>
+  <div class="col-md-6 col-md-offset-3" id="result">
+    <table class="table table-striped table-hover ">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Temperature(Degrees)</th>
+          <th>Humidity</th>
+          <th>How it is right now</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{result.dt | date:"MM/dd/yyyy 'at' h:mma"}}</td>          
+          <td>{{result.main.temp | number:2 }}</td>
+          <td>{{result.main.humidity}}</td>
+          <td>{{result.weather[0].description}}</td>
+        </tr>
+        <tr ng-repeat = "result in results">
+          <td>{{result.dt *1000| date:"MM/dd/yyyy 'at' h:mma"}}</td>          
+          <td>{{result.main.temp - 273.15 | number:2}}&deg;C</td>
+          <td>{{result.main.humidity}}</td>
+          <td>{{result.weather[0].description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>    
+</div> 
+</body>
+</html>
