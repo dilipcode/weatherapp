@@ -1,10 +1,52 @@
 
-var weather = angular.module('weatherApp',[]);
-weather.controller('firstController', function($scope,$http){
+var weather = angular.module('weatherApp',['ngRoute']);
 
-  $scope.cityName = "";
+weather.controller('cricketController', function($scope, $http){
+  
+  $scope.getMatch = function(){
+    var urlStr = 'http://cricapi.com/api/cricket/'
+    $http({
+      method: 'GET',
+      url: urlStr
+    }).then(function successCallback(response){
+      
+      console.log(response);
+      
+      $scope.results = response.data.data
+      
+    },
+    function errorCallback(response){
+      console.log("error");
+    });
+  }
+  
+  $scope.getScore = function(id){
+    var urlStr = 'http://cricapi.com/api/cricketScore?unique_id='+id
+    $http({
+      method: 'GET',
+      url: urlStr
+    }).then(function successCallback(response){
+      console.log(response);
+      $scope.scores = response.data;
+    },
+     function errorCallback(response){
+      console.log("error while get scores");
+    });
+  }
+  
+});
+
+weather.controller('mainController', function($scope,$route,$location){
+  $scope.cityName = "Hyderabad";
+  $scope.path = $location.absUrl();
+});
+
+weather.controller('currentController', function($scope,$http,$route){
+
+  
   $scope.getCurrent = function(){
     console.log("Current weather called");
+    // $route.reload();
     var urlStr = 'http://api.openweathermap.org/data/2.5/weather?q='+$scope.cityName+ '&appid=3fa7b473d43c3f2d4694babcdf10c8ee';
     $http({
       method: 'GET',
@@ -20,7 +62,13 @@ weather.controller('firstController', function($scope,$http){
           $scope.errorMessage = "Unable to fetch weather data";
         });
   }
+  
+  $scope.getCurrent();
 
+});
+
+weather.controller('forecastController', function($scope, $http){
+  
   $scope.getForecast = function(){
     console.log("Forecast called");
     var urlStr = 'http://api.openweathermap.org/data/2.5/forecast?q='+$scope.cityName+ '&appid=3fa7b473d43c3f2d4694babcdf10c8ee';
@@ -36,4 +84,5 @@ weather.controller('firstController', function($scope,$http){
           $scope.errorMessage = "Unable to fetch weather data";
         });
   }
+  $scope.getForecast();
 });
