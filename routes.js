@@ -1,12 +1,17 @@
 angular.module('weatherApp').config(function($routeProvider){
 
   $routeProvider
-  .when('/current', {
+  .when('/current/:cityName', {
     templateUrl: 'current.html',
     controller: 'currentController'
   })
 
-  .when('/forecast', {
+  .when('/forecast/:cityName', {
+    templateUrl: 'forecast.html',
+    controller: 'forecastController'
+  })
+  
+  .when('/forecast/:days', {
     templateUrl: 'forecast.html',
     controller: 'forecastController'
   })
